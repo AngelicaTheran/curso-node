@@ -19,8 +19,13 @@ const main = async () => {
                 const termino = await leerInput('Ciudad:');
 
                 const lugares = await busquedas.ciudad(termino);
+
                 const idSeleccionado = await listarLugares(lugares);
+                if ( idSeleccionado === '0') continue;
+
                 const lugarSel = lugares.find(l => l.id === idSeleccionado);
+                
+                busquedas.agregarHistorial(lugarSel.nombre);
 
                 const clima = await busquedas.climaLugar(lugarSel.lat, lugarSel.lng);
 
@@ -35,6 +40,16 @@ const main = async () => {
                 console.log('Minima:', clima.min);
                 console.log('Maxima:', clima.max);
                 console.log('Descripcion:', clima.desc.green);
+
+                break;
+
+            case 2:
+                
+                busquedas.historial.forEach((lugar, index) => {
+                    const indx = `${index + 1}.`.green;
+                    console.log(`${ indx } ${ lugar }`);
+
+                })
 
                 break;
 
